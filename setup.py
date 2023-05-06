@@ -1,5 +1,4 @@
 from setuptools import setup, Extension
-from torch.utils import cpp_extension
 
 setup(
     name="hf_bleeding_edge",
