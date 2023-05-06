@@ -1,10 +1,11 @@
 import json
 import os
-
-from logger import logger
+import logging
 
 from transformers import AutoConfig as AC, AutoModelForCausalLM as AM
 from .mpt import MPTConfig, MPTForCausalLM
+
+logger = logging.getLogger(__name__)
 
 
 def load_json(path):
