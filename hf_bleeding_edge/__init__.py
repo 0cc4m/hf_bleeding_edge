@@ -1,11 +1,8 @@
 import json
 import os
-import logging
 
 from transformers import AutoConfig as AC, AutoModelForCausalLM as AM
 from .mpt import MPTConfig, MPTForCausalLM
-
-logger = logging.getLogger(__name__)
 
 
 def load_json(path):
@@ -22,7 +19,6 @@ class AutoConfig():
             auto_config = auto_map.get("AutoConfig")
 
             if auto_config == "configuration_mpt.MPTConfig":
-                logger.info("Patching MPT config load")
                 return MPTConfig.from_pretrained(path, *args, **kwargs)
 
         return AC.from_pretrained(path, *args, **kwargs)
@@ -37,7 +33,6 @@ class AutoModelForCausalLM():
             auto_config = auto_map.get("AutoModelForCausalLM")
 
             if auto_config == "modeling_mpt.MPTForCausalLM":
-                logger.info("Patching MPT model load")
                 return MPTForCausalLM.from_pretrained(path, *args, **kwargs)
 
         return AM.from_pretrained(path, *args, **kwargs)
