@@ -12,39 +12,28 @@ def load_json(path):
 
 class AutoConfig():
     def from_pretrained(path, *args, **kwargs):
-        js = load_json(os.path.join(path, "config.json"))
+        config = load_json(os.path.join(path, "config.json"))
 
-        auto_map = js.get("auto_map")
-        if auto_map:
-            auto_config = auto_map.get("AutoConfig")
-
-            if auto_config == "configuration_mpt.MPTConfig":
-                return MPTConfig.from_pretrained(path, *args, **kwargs)
+        archs = config.get("architectures")
+        if archs and archs[0] == "MPTForCausalLM":
+            return MPTConfig.from_pretrained(path, *args, **kwargs)
 
         return AC.from_pretrained(path, *args, **kwargs)
 
 
 class AutoModelForCausalLM():
-    def from_config(path, *args, **kwargs):
-        js = load_json(os.path.join(path, "config.json"))
+    def from_config(config, *args, **kwargs):
+        archs = config.architectures
+        if archs and archs[0] == "MPTForCausalLM":
+            return MPTForCausalLM.from_config(config, *args, **kwargs)
 
-        auto_map = js.get("auto_map")
-        if auto_map:
-            auto_config = auto_map.get("AutoModelForCausalLM")
-
-            if auto_config == "modeling_mpt.MPTForCausalLM":
-                return MPTForCausalLM.from_config(path, *args, **kwargs)
-
-        return AM.from_config(path, *args, **kwargs)
+        return AM.from_config(config, *args, **kwargs)
 
     def from_pretrained(path, *args, **kwargs):
-        js = load_json(os.path.join(path, "config.json"))
+        config = load_json(os.path.join(path, "config.json"))
 
-        auto_map = js.get("auto_map")
-        if auto_map:
-            auto_config = auto_map.get("AutoModelForCausalLM")
-
-            if auto_config == "modeling_mpt.MPTForCausalLM":
-                return MPTForCausalLM.from_pretrained(path, *args, **kwargs)
+        archs = config.get("architectures")
+        if archs and archs[0] == "MPTForCausalLM":
+            return MPTForCausalLM.from_pretrained(path, *args, **kwargs)
 
         return AM.from_pretrained(path, *args, **kwargs)
