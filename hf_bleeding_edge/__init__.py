@@ -25,6 +25,18 @@ class AutoConfig():
 
 
 class AutoModelForCausalLM():
+    def from_config(path, *args, **kwargs):
+        js = load_json(os.path.join(path, "config.json"))
+
+        auto_map = js.get("auto_map")
+        if auto_map:
+            auto_config = auto_map.get("AutoModelForCausalLM")
+
+            if auto_config == "modeling_mpt.MPTForCausalLM":
+                return MPTForCausalLM.from_config(path, *args, **kwargs)
+
+        return AM.from_config(path, *args, **kwargs)
+
     def from_pretrained(path, *args, **kwargs):
         js = load_json(os.path.join(path, "config.json"))
 
