@@ -25,7 +25,7 @@ class AutoModelForCausalLM():
     def from_config(config, *args, **kwargs):
         archs = config.architectures
         if archs and archs[0] == "MPTForCausalLM":
-            return MPTForCausalLM.from_config(config, *args, **kwargs)
+            return MPTForCausalLM(config, *args, **kwargs)
 
         return AM.from_config(config, *args, **kwargs)
 
