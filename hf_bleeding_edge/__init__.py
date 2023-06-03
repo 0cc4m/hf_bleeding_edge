@@ -3,7 +3,7 @@ import os
 
 from transformers import AutoConfig as AC, AutoModelForCausalLM as AM
 from .mpt import MPTConfig, MPTForCausalLM
-from .falcon import RWConfig, RWForCausalLM
+from .rw import RWConfig, RWForCausalLM
 
 
 def load_json(path):
