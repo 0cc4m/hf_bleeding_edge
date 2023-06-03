@@ -28,8 +28,12 @@ class AutoConfig():
 class AutoModelForCausalLM():
     def from_config(config, *args, **kwargs):
         archs = config.architectures
-        if archs and archs[0] == "MPTForCausalLM":
-            return MPTForCausalLM(config, *args, **kwargs)
+        if archs:
+            # Don't forward args and kwargs since they apply to AutoModel
+            if archs[0] == "MPTForCausalLM":
+                return MPTForCausalLM(config)
+            if archs[0] == "RWForCausalLM":
+                return RWForCausalLM(config)
 
         return AM.from_config(config, *args, **kwargs)
 
