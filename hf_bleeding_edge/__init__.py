@@ -7,13 +7,19 @@ from .rw import RWConfig, RWForCausalLM
 
 
 def load_json(path):
-    with open(path, "r") as f:
-        return json.load(f)
+    try:
+        with open(path, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return False
 
 
 class AutoConfig():
     def from_pretrained(path, *args, **kwargs):
         config = load_json(os.path.join(path, "config.json"))
+
+        if not config:
+            return AC.from_pretrained(path, *args, **kwargs)
 
         archs = config.get("architectures")
         if archs:
@@ -39,6 +45,9 @@ class AutoModelForCausalLM():
 
     def from_pretrained(path, *args, **kwargs):
         config = load_json(os.path.join(path, "config.json"))
+
+        if not config:
+            return AM.from_pretrained(path, *args, **kwargs)
 
         archs = config.get("architectures")
         if archs:
